@@ -1,8 +1,9 @@
 # Summary
 
-
 ## Graph Algorithm
-- The implementation is using maps which does no guarantee order of the topological sorting. It can be 
+**It is better to use already implemented packages which are community adopted and tested,** but I have decided to train my skills a little
+
+The implementation is using maps which does no guarantee order of the topological sorting. It can be 
 implemented with arrays or can be improved with following logic
 ```go
 // key will be used as map key

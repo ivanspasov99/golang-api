@@ -5,10 +5,11 @@ import (
 	"github.com/pkg/errors"
 )
 
-var VertexNotFoundErr = errors.New("vertex not found")
-var VertexIsNotDefinedErr = errors.New("vertex is not defined")
-
-var GraphCycleErr = errors.New("there is cycle in the graph")
+var (
+	VertexNotFoundErr     = errors.New("vertex not found")
+	GraphCycleErr         = errors.New("there is cycle in the graph")
+	VertexIsNotDefinedErr = errors.New("vertex is not defined")
+)
 
 func NewGraph() *graph {
 	g := graph{}
@@ -30,6 +31,7 @@ type graph struct {
 	edges    map[string]*Edge
 }
 
+// TopologicalSort is doing topological sort and returns GraphCycleErr if cycle appears
 func (g *graph) TopologicalSort() ([]string, error) {
 	var sortedTasks []string
 	visited := make(map[string]bool)
