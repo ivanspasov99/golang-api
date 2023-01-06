@@ -1,5 +1,9 @@
 # Summary
 
+## Job Handler
+Job Handler handles every job in separate goroutine, it is highly possible real big data scenario so 
+performance is crucial. Therefore, it is taken into account and time complexity is linear - Graph Implementation O(n + e).
+
 ## Testing
 Testing is created using Table Driven Testing. Output could be improved when test fails, as it would 
 bring big value in debugging faster
@@ -16,6 +20,8 @@ the application, then you can consume/read it as `env` variable in the code
 **It is better to use already implemented packages which are community adopted and tested**, but I have decided to refresh my skills a little bit
 
 **It is best to be implemented using generics as now it is very limited to one type/struct etc**
+
+**Time Complexity - O(n + e)**
 
 The implementation is using maps which does no guarantee order of the topological sorting. It can be 
 implemented with arrays or can be improved with following custom map key logic
