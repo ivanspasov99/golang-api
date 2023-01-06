@@ -9,16 +9,6 @@ import (
 	"net/http"
 )
 
-// Just for review info
-// Logging package could be extended with dynamic logging
-// which represent the option to change the level of logging (debug, warn, info, error)
-// This help in generating fewer logs when not needed and set more logs when problem arise for debugging purposes
-// This could be implemented through a configmap in the which is deployed in k8s cluster for examples separately from
-// the application
-
-// Package encapsulate productive json requirement logging which is required by a lot of
-// analysing log tools
-
 // The `key` will be available only in the log package, so no one will have access to such type
 // therefore they can not change it in the context
 type key string
