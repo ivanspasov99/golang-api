@@ -11,11 +11,17 @@ var (
 	VertexIsNotDefinedErr = errors.New("vertex is not defined")
 )
 
-func NewGraph() *graph {
-	g := graph{}
-	g.vertices = make(map[string]*Vertex)
-	g.edges = make(map[string]*Edge)
+// NewGraph should be used to initialize the internal structures
+func NewGraph() *DirectedGraph {
+	g := DirectedGraph{}
+	g.Vertices = make(map[string]*Vertex)
+	g.Edges = make(map[string]*Edge)
 	return &g
+}
+
+type DirectedGraph struct {
+	Vertices map[string]*Vertex
+	Edges    map[string]*Edge
 }
 
 type Vertex struct {
@@ -26,18 +32,13 @@ type Edge struct {
 	From, To *Vertex
 }
 
-type graph struct {
-	vertices map[string]*Vertex
-	edges    map[string]*Edge
-}
-
 // TopologicalSort is doing topological sort and returns GraphCycleErr if cycle appears
-func (g *graph) TopologicalSort() ([]string, error) {
+func (g *DirectedGraph) TopologicalSort() ([]string, error) {
 	var sortedTasks []string
 	visited := make(map[string]bool)
 	processing := make(map[string]bool)
 
-	for _, v := range g.vertices {
+	for _, v := range g.Vertices {
 		if !visited[v.Name] {
 			err := g.processTask(v, &sortedTasks, visited, processing)
 			if err != nil {
@@ -50,10 +51,10 @@ func (g *graph) TopologicalSort() ([]string, error) {
 
 // ProcessTask is recursive function for building doing bfs and ordering vertices
 // returns GraphCycleErr if cycle appears
-func (g *graph) processTask(v *Vertex, sortedTasks *[]string, visited map[string]bool, processing map[string]bool) error {
+func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited map[string]bool, processing map[string]bool) error {
 	// processing keeps track of currently processed vertexes and is used to identify cycles
 	processing[v.Name] = true
-	for _, edge := range g.edges {
+	for _, edge := range g.Edges {
 		if edge.From.Name == v.Name {
 			if b, _ := processing[edge.To.Name]; b {
 				return GraphCycleErr
@@ -76,20 +77,20 @@ func (g *graph) processTask(v *Vertex, sortedTasks *[]string, visited map[string
 }
 
 // Vertex retrieves a vertex by name and returns VertexNotFoundErr
-func (g *graph) Vertex(name string) (*Vertex, error) {
-	if _, ok := g.vertices[name]; !ok {
+func (g *DirectedGraph) Vertex(name string) (*Vertex, error) {
+	if _, ok := g.Vertices[name]; !ok {
 		return nil, VertexNotFoundErr
 	}
-	return g.vertices[name], nil
+	return g.Vertices[name], nil
 }
 
-func (g *graph) AddVertex(name string) {
+func (g *DirectedGraph) AddVertex(name string) {
 	v := Vertex{Name: name}
-	g.vertices[name] = &v
+	g.Vertices[name] = &v
 }
 
 // AddEdge add edge and returns VertexNotFoundErr
-func (g *graph) AddEdge(from, to *Vertex) error {
+func (g *DirectedGraph) AddEdge(from, to *Vertex) error {
 	if from == nil || to == nil {
 		return VertexIsNotDefinedErr
 	}
@@ -104,12 +105,12 @@ func (g *graph) AddEdge(from, to *Vertex) error {
 
 	edge := Edge{From: from, To: to}
 	edgeName := fmt.Sprintf("%s-%s", from.Name, to.Name)
-	g.edges[edgeName] = &edge
+	g.Edges[edgeName] = &edge
 	return nil
 }
 
-func (g *graph) validateVertexExistence(v *Vertex) error {
-	if _, ok := g.vertices[v.Name]; !ok {
+func (g *DirectedGraph) validateVertexExistence(v *Vertex) error {
+	if _, ok := g.Vertices[v.Name]; !ok {
 		return fmt.Errorf("%w, Name: %s ", VertexNotFoundErr, v.Name)
 	}
 	return nil

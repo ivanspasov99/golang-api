@@ -8,14 +8,14 @@ import (
 
 var testTopologicalSort = []struct {
 	name                string
-	vertices            []*Vertex
-	edges               []*Edge
+	Vertices            []*Vertex
+	Edges               []*Edge
 	hasError            bool
 	expectedError       error
 	expectedSortedArray []string
 }{
 	{
-		"Test with four vertices and three edges which are connected",
+		"Test with four Vertices and three Edges which are connected",
 		[]*Vertex{{Name: "v1"}, {Name: "v2"}, {Name: "v3"}, {Name: "v4"}},
 		[]*Edge{
 			{From: &Vertex{Name: "v1"}, To: &Vertex{Name: "v2"}},
@@ -42,7 +42,7 @@ var testTopologicalSort = []struct {
 func TestTopologicalSort(t *testing.T) {
 	for _, tt := range testTopologicalSort {
 		t.Run(tt.name, func(t *testing.T) {
-			g := initNewTestingGraph(t, tt.vertices, tt.edges)
+			g := initNewTestingGraph(t, tt.Vertices, tt.Edges)
 			arr, err := g.TopologicalSort()
 			if tt.hasError {
 				assert.NotNil(t, err)
@@ -55,13 +55,13 @@ func TestTopologicalSort(t *testing.T) {
 	}
 }
 
-func initNewTestingGraph(t *testing.T, vertices []*Vertex, edges []*Edge) *graph {
+func initNewTestingGraph(t *testing.T, Vertices []*Vertex, Edges []*Edge) *DirectedGraph {
 	g := NewGraph()
-	for _, v := range vertices {
+	for _, v := range Vertices {
 		g.AddVertex(v.Name)
 	}
 
-	for _, e := range edges {
+	for _, e := range Edges {
 		if err := g.AddEdge(e.From, e.To); err != nil {
 			t.Fatal("Adding edge failed with", err)
 			return nil
@@ -72,14 +72,14 @@ func initNewTestingGraph(t *testing.T, vertices []*Vertex, edges []*Edge) *graph
 
 var testProcessTask = []struct {
 	name                string
-	vertices            []*Vertex
-	edges               []*Edge
+	Vertices            []*Vertex
+	Edges               []*Edge
 	hasError            bool
 	expectedError       error
 	expectedSortedArray []string
 }{
 	{
-		"Test with four vertices and three edges which are connected starting from v1",
+		"Test with four Vertices and three Edges which are connected starting from v1",
 		[]*Vertex{{Name: "v1"}, {Name: "v2"}, {Name: "v3"}, {Name: "v4"}},
 		[]*Edge{
 			{From: &Vertex{Name: "v1"}, To: &Vertex{Name: "v2"}},
@@ -107,7 +107,7 @@ var testProcessTask = []struct {
 func TestProcessTask(t *testing.T) {
 	for _, tt := range testProcessTask {
 		t.Run(tt.name, func(t *testing.T) {
-			g := initNewTestingGraph(t, tt.vertices, tt.edges)
+			g := initNewTestingGraph(t, tt.Vertices, tt.Edges)
 			sortedTasks := make([]string, 0)
 			err := g.processTask(&Vertex{Name: "v1"}, &sortedTasks, make(map[string]bool), make(map[string]bool))
 			if tt.hasError {
@@ -122,7 +122,7 @@ func TestProcessTask(t *testing.T) {
 }
 
 func TestVertex(t *testing.T) {
-	// Create a DAG with three vertices.
+	// Create a DAG with three Vertices.
 	g := NewGraph()
 	g.AddVertex("v1")
 	g.AddVertex("v2")
@@ -141,17 +141,17 @@ func TestVertex(t *testing.T) {
 
 func TestAddVertex(t *testing.T) {
 	g := NewGraph()
-	assert.Len(t, g.vertices, 0)
+	assert.Len(t, g.Vertices, 0)
 
 	g.AddVertex("v1")
-	assert.Len(t, g.vertices, 1)
-	vertex, ok := g.vertices["v1"]
+	assert.Len(t, g.Vertices, 1)
+	vertex, ok := g.Vertices["v1"]
 	assert.True(t, ok)
 	assert.Equal(t, "v1", vertex.Name)
 
 	g.AddVertex("v2")
-	assert.Len(t, g.vertices, 2)
-	vertex, ok = g.vertices["v2"]
+	assert.Len(t, g.Vertices, 2)
+	vertex, ok = g.Vertices["v2"]
 	assert.True(t, ok)
 	assert.Equal(t, "v2", vertex.Name)
 }
@@ -165,8 +165,8 @@ var testAddEdge = []struct {
 }{
 	{"Test add edge with nil from vertex should return error", nil, &Vertex{Name: "to"}, true, VertexIsNotDefinedErr},
 	{"Test add edge with nil to vertex should return error", &Vertex{Name: "from"}, nil, true, VertexIsNotDefinedErr},
-	{"Test add edge with existing vertices should add vertices", &Vertex{Name: "from"}, &Vertex{Name: "to"}, false, nil},
-	{"Test add edge with non existing vertices should return", &Vertex{Name: "non"}, &Vertex{Name: "exist"}, true, VertexNotFoundErr},
+	{"Test add edge with existing Vertices should add Vertices", &Vertex{Name: "from"}, &Vertex{Name: "to"}, false, nil},
+	{"Test add edge with non existing Vertices should return", &Vertex{Name: "non"}, &Vertex{Name: "exist"}, true, VertexNotFoundErr},
 }
 
 func TestAddEdge(t *testing.T) {
@@ -182,7 +182,7 @@ func TestAddEdge(t *testing.T) {
 				assert.True(t, errors.Is(err, tt.expectedError))
 			} else {
 				assert.Nil(t, err)
-				edge, ok := g.edges["from-to"]
+				edge, ok := g.Edges["from-to"]
 				assert.True(t, ok)
 				assert.Equal(t, "from", edge.From.Name)
 				assert.Equal(t, "to", edge.To.Name)
