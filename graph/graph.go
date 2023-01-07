@@ -12,9 +12,10 @@ var (
 )
 
 // NewGraph should be used to initialize the internal structures
-func NewGraph() *DirectedGraph {
+// verticesNum is used to improve memory allocation for the vertices
+func NewGraph(verticesNum int) *DirectedGraph {
 	g := DirectedGraph{}
-	g.Vertices = make(map[string]*Vertex)
+	g.Vertices = make(map[string]*Vertex, verticesNum)
 	g.Edges = make(map[string]*Edge)
 	return &g
 }

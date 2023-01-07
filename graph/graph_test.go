@@ -56,7 +56,7 @@ func TestTopologicalSort(t *testing.T) {
 }
 
 func initNewTestingGraph(t *testing.T, Vertices []*Vertex, Edges []*Edge) *DirectedGraph {
-	g := NewGraph()
+	g := NewGraph(2)
 	for _, v := range Vertices {
 		g.AddVertex(v.Name)
 	}
@@ -123,7 +123,7 @@ func TestProcessTask(t *testing.T) {
 
 func TestVertex(t *testing.T) {
 	// Create a DAG with three Vertices.
-	g := NewGraph()
+	g := NewGraph(2)
 	g.AddVertex("v1")
 	g.AddVertex("v2")
 
@@ -140,7 +140,7 @@ func TestVertex(t *testing.T) {
 }
 
 func TestAddVertex(t *testing.T) {
-	g := NewGraph()
+	g := NewGraph(2)
 	assert.Len(t, g.Vertices, 0)
 
 	g.AddVertex("v1")
@@ -170,7 +170,7 @@ var testAddEdge = []struct {
 }
 
 func TestAddEdge(t *testing.T) {
-	g := NewGraph()
+	g := NewGraph(2)
 	g.AddVertex("from")
 	g.AddVertex("to")
 
