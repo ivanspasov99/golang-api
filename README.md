@@ -5,11 +5,11 @@
 |:------------------------------------------------------|
 | * [API Docs](#api-docs)                               |
  | * [Full Software Lifecycle](#full-software-lifecycle) |
-    | * [Architecture](#architecture)                       |
-    | * [Package](#package)                                 |
-    | * [CI](#ci)                                           |
-    | * [CD](#cd)                                           |
-    | * [Monitor](#monitor)                                 |
+| * [Architecture](#architecture)                       |
+| * [Package](#package)                                 |
+| * [CI](#ci)                                           |
+| * [CD](#cd)                                           |
+| * [Monitor](#monitor)                                 |
 | * [Job Handler](#job-handler)                         |
 | * [Testing](#testing)                                 |
 | * [Logging Package](#logging-package)                 |
