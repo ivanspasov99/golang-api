@@ -122,18 +122,9 @@ func HandleJob(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	jsonResp, err := json.Marshal(commandBuffer)
-	if err != nil {
-		// return error
-		log.Fatalf("Error happened in JSON marshal. Err: %s", err)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	_, err = w.Write(jsonResp)
-	if err != nil {
-		log.Fatalf("Error happened write. Err: %s", err)
+	writeResponse := getJobModeWriter(r)
+	if err := writeResponse(w, commandBuffer); err != nil {
+		log.Fatalf("Populate graph. Err: %s", err)
 		return
 	}
 	return

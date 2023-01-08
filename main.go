@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", logging.DecorateHeader(job.HandleJob))
+	http.HandleFunc("/job", logging.DecorateHeader(job.HandleJob))
 
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal().Msg(err.Error())
