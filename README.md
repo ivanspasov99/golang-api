@@ -1,10 +1,50 @@
-# Summary
+# API Docs
+
+
+## Full Software Lifecycle 
+What should be added to be production ready
+
+### Architecture
+Diagrams should be added
+- Block Diagram
+- Flow Diagrams
+
+### Package
+- All Configurations will be passed as `env` variables through charts. Example how should they be handled in [Config](config/config.go). Also, there is example for some cluster communication client 
+- Using Helm & Kubernetes
+
+### CI 
+Executed on Every PR/Merge
+- Build - Using Docker
+- Integration - Jenkins or Azure. Execution of Unit, Performance testing
+- Generate Version and Release
+
+Executed on Merge
+- Push Image to Container Registry (GCP)
+- Push Helm Chart to Artifact Registry (GCP)
+- Security, Compliant checks on built image
+
+### CD
+Depends on whether Continuous Delivery/Continues Deployment/Progressive Delivery is set and what Service Mesh is used
+- Configure Environment Configuration Repository (keeping all microservices version and used for release/promotion)
+- Deploy with Argo CD 
+- Configure [Cluster Bootstrapping](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) if multiple clusters are used for different environments
+- Secrets Management - [External Secrets Operator](https://external-secrets.io/v0.7.1/)
+- Centralized Secret Management Platform - [HashiCorp Vault](https://www.vaultproject.io/)
+
+### Monitor 
+Tools that have specified in [Job Handler](#job-handler)
 
 ## Job Handler
 Job Handler handles every job in separate goroutine, it is highly possible real big data scenario so 
 performance is crucial. Therefore, it is taken into account and time complexity is linear - Graph Implementation O(n + e).
 
-Encoding/Decoding special symbols use-cases are not taken into account
+- Encoding/Decoding special symbols use-cases are not taken into account
+- Job Processing is separated to two middlewares using chain of responsibility pattern - job.Handle and job.HandleError as both we grow in the future so they should be separated as abstractions
+- Monitoring/Alerting is out of scope. Could be done with different tools depending on requirements
+  - Sentry - Error Alerting, could alert the DoD (developer on duty) for errors which should be process immediately 
+  - Kibana - Logging Analyse tool
+  - Prometheus - Resource/Performance analyse tool 
 
 ## Testing
 Testing is created using Table Driven Testing over BDT (Behavior Driven Testing). Output could be improved when test fails, as it would 
