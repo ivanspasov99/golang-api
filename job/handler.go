@@ -6,7 +6,6 @@ import (
 	"github.com/ivanspasov99/golang-api/graph"
 	"github.com/pkg/errors"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -36,6 +35,45 @@ type Graph interface {
 	Vertex(name string) (*graph.Vertex, error)
 	AddVertex(name string)
 	AddEdge(from, to *graph.Vertex) error
+}
+
+// Handle processes Job which tasks are being sorted in required order
+// Internally it is using graph.DirectedGraph which is doing sorting in linear complexity
+// A Job is a collection of tasks, where each Task has a name and a shell command. Tasks may
+// depend on other tasks and require that those are executed beforehand.
+// returns
+func Handle(w http.ResponseWriter, r *http.Request) error {
+	b, err := io.ReadAll(r.Body)
+	defer r.Body.Close()
+	if err != nil {
+		return err
+	}
+
+	j := Job{}
+	if err := json.Unmarshal(b, &j); err != nil {
+		return err
+	}
+
+	g := graph.NewGraph(len(j.Tasks))
+	if err := populateGraph(j.Tasks, g); err != nil {
+		return err
+	}
+
+	sortedArr, err := g.TopologicalSort()
+	if err != nil {
+		return err
+	}
+
+	commandBuffer := make([]Command, len(sortedArr))
+	if err := generateCommandOrder(sortedArr, j.Tasks, commandBuffer); err != nil {
+		return err
+	}
+
+	writeResponse := getJobModeWriter(r)
+	if err := writeResponse(w, commandBuffer); err != nil {
+		return err
+	}
+	return nil
 }
 
 func populateGraph(tasks []Task, g Graph) error {
@@ -83,49 +121,4 @@ func generateCommandOrder(sortedTasks []string, requestTasks []Task, commandBuff
 		commandBuffer[v] = Command{Name: t.Name, Script: t.Command}
 	}
 	return nil
-}
-
-// HandleJob processes Job which tasks are being sorted in required order
-// Internally it is using graph.DirectedGraph which is doing sorting in linear complexity
-// A Job is a collection of tasks, where each Task has a name and a shell command. Tasks may
-// depend on other tasks and require that those are executed beforehand.
-// returns
-func HandleJob(w http.ResponseWriter, r *http.Request) {
-	b, err := io.ReadAll(r.Body)
-	defer r.Body.Close()
-	if err != nil {
-		log.Fatalln(err)
-		return
-	}
-
-	j := Job{}
-	if err := json.Unmarshal(b, &j); err != nil {
-		log.Fatalln(err)
-		return
-	}
-
-	g := graph.NewGraph(len(j.Tasks))
-	if err := populateGraph(j.Tasks, g); err != nil {
-		log.Fatalf("Populate graph. Err: %s", err)
-		return
-	}
-
-	sortedArr, err := g.TopologicalSort()
-	if err != nil {
-		log.Fatalf("Topological sort error. Err: %s", err)
-		return
-	}
-
-	commandBuffer := make([]Command, len(sortedArr))
-	if err := generateCommandOrder(sortedArr, j.Tasks, commandBuffer); err != nil {
-		log.Fatalf("Populate graph. Err: %s", err)
-		return
-	}
-
-	writeResponse := getJobModeWriter(r)
-	if err := writeResponse(w, commandBuffer); err != nil {
-		log.Fatalf("Populate graph. Err: %s", err)
-		return
-	}
-	return
 }
