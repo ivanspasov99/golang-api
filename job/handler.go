@@ -27,8 +27,8 @@ type Task struct {
 }
 
 type Command struct {
-	Name    string `json:"name"`
-	Command string `json:"command"`
+	Name   string `json:"name"`
+	Script string `json:"command"`
 }
 
 type Graph interface {
@@ -80,7 +80,7 @@ func generateCommandOrder(sortedTasks []string, requestTasks []Task, commandBuff
 		if !ok {
 			return fmt.Errorf("%w, task: %s", requestTaskDoesNotExistErr, t.Name)
 		}
-		commandBuffer[v] = Command{Name: t.Name, Command: t.Command}
+		commandBuffer[v] = Command{Name: t.Name, Script: t.Command}
 	}
 	return nil
 }

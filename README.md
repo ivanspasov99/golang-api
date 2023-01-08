@@ -4,9 +4,11 @@
 Job Handler handles every job in separate goroutine, it is highly possible real big data scenario so 
 performance is crucial. Therefore, it is taken into account and time complexity is linear - Graph Implementation O(n + e).
 
+Encoding/Decoding special symbols use-cases are not taken into account
+
 ## Testing
-Testing is created using Table Driven Testing. Output could be improved when test fails, as it would 
-bring big value in debugging faster
+Testing is created using Table Driven Testing over BDT (Behavior Driven Testing). Output could be improved when test fails, as it would 
+bring big value in debugging faster. 
 
 ## Logging Package
 Package encapsulate productive json requirement logging which is required by a lot of analysing log tools
@@ -43,3 +45,6 @@ func (k key) Less(other key) bool {
 	// Return false otherwise.
 }
 ```
+
+### Security
+Security not part of the task

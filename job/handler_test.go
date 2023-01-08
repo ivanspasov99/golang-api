@@ -165,9 +165,9 @@ var testGenerateCommandOrder = []struct {
 		},
 		make([]Command, 3),
 		[]Command{
-			{Name: "t3", Command: "c3"},
-			{Name: "t1", Command: "c1"},
-			{Name: "t2", Command: "c2"},
+			{Name: "t3", Script: "c3"},
+			{Name: "t1", Script: "c1"},
+			{Name: "t2", Script: "c2"},
 		},
 		false,
 		nil,

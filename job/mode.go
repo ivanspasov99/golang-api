@@ -21,7 +21,7 @@ func writeBash(w http.ResponseWriter, commands []Command) error {
 	arr[0] = bashHeader
 
 	for i, command := range commands {
-		arr[i+1] = command.Command
+		arr[i+1] = command.Script
 	}
 
 	s := strings.Join(arr, "\n")
