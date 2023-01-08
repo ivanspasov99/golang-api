@@ -28,7 +28,7 @@
 <summary>
 <code>POST</code>
 <code><b>/job?mode={mode}</b></code>
-<code>Accepts job with tasks and returns ordered commands as different format depending on the `mode` passed as query parameter</code>
+<code>Accepts job with tasks and returns ordered commands as different format depending on the `mode` passed as query parameter. `mode=[bash, json]`</code>
 </summary>
 
 ##### Query
@@ -94,7 +94,7 @@ Diagrams should be added
 - Flow Diagrams
 
 ### Package
-- All Configurations will be passed as `env` variables through charts. Example how should they be handled in [Config](pkg/config/config.go). Also, there is example for some cluster communication client 
+- All Configurations will be passed as `env` variables through charts. Example how should they be handled in [Config](pkg/config/config.go). Also, there is example for k8s cluster communication client 
 - Using Helm & Kubernetes
 
 ### CI 
