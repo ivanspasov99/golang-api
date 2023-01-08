@@ -1,8 +1,57 @@
 # API Docs
 
+## Consume API
+<details>
+<summary>
+<code>POST</code>
+<code><b>/job?mode={mode}</b></code>
+<code>Accepts job with tasks and returns ordered commands as different format depending on the `mode` passed as query parameter</code></summary>
+
+##### Query
+
+> | name |  type     | data type               | description                                                           | default |
+------|-------------|-----------|-------------------------|-----------------------------------------------------------------------| --- |            
+> | mode    |  optional | string                   | represents required response format - JSON, Bash supported                      | JSON |
+
+##### Responses
+
+> | http code | Content-Type                    | Request  | Response                                                          |
+-----------|---------------|-----------------------------------|---------------------------------------------------------------------| --- |
+> | `200`     | `application/json`                | [Example Request](#example-json-request) | [Example Response](#example-json-response)                                                | 
+> | `200`       | `text`                |  |                        |
+
+###### Example JSON Request
+```curl -d @testing/input.json http://localhost:8080```
+
+###### Example JSON Response
+```json
+[
+  {
+    "name":"task-1",
+    "command":"touch /tmp/file1"
+  },
+  {
+    "name":"task-3",
+    "command":"echo 'Hello World!' > /tmp/file1"
+  },
+  {
+    "name":"task-2",
+    "command":"cat /tmp/file1"
+  },
+  {
+    "name":"task-4",
+    "command":"rm /tmp/file1"
+  }
+]
+```
+
+
+</details>
 
 ## Full Software Lifecycle 
-What should be added to be production ready
+What should be added to be production ready.
+
+API Docs could be added using Swagger
 
 ### Architecture
 Diagrams should be added
