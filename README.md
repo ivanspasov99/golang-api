@@ -39,10 +39,12 @@
 
 ##### Responses
 
-| http code | Content-Type       | Request                                  | Response                                   |
-|-----------|--------------------|------------------------------------------|--------------------------------------------|
-| `200`     | `application/json` | [Example Request](#example-json-request) | [Example Response](#example-json-response) | 
-| `200`     | `text`             | [Example Request](#example-bash-request) | [Example Response](#example-bash-response) |
+| http code | Content-Type       | Request                                          | Response                                   |
+|-----------|--------------------|--------------------------------------------------|--------------------------------------------|
+| `200`     | `application/json` | [Example Request](#example-json-request)         | [Example Response](#example-json-response) | 
+| `200`     | `text`             | [Example Request](#example-bash-request)         | [Example Response](#example-bash-response) |
+| `400`     | `application/json` | Request which consist of cycle between tasks     | Cycle not allowed                          |
+ | `400`     | `application/json` | Request which requires task which does not exist | Vertex (Task) does not exist               |
 
 ###### Example JSON Request
 ```curl -d @testing/input.json http://localhost:8080```
@@ -126,6 +128,7 @@ performance is crucial. Therefore, it is taken into account and time complexity 
 - Handler could be made with Gin HTTP framework as it give us greater flexibility and ready features. Some boilerplate will be removed (HTTP verbs management) 
 - Encoding/Decoding special symbols use-cases are not taken into account
 - Job Processing is separated to two middlewares using chain of responsibility pattern - job.Handle and job.HandleError as both will grow in the future so they should be separated as abstractions
+- More middlewares could be added with the same technique (Ex: Authorization Module)
 - Tests for [job.Handle](pkg/job/handler.go) and [job.HandleError](pkg/job/handler.go) are skipped. They are required but would be the same as the most of the written ones. Writer and Request would be mocked and all scenarios would be tested.
 - Monitoring/Alerting is out of scope. Could be done with different tools depending on requirements
   - Sentry - Error Alerting, could alert the DoD (developer on duty) for errors which should be process immediately 

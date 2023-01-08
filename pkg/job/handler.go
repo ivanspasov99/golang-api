@@ -39,7 +39,8 @@ type Graph interface {
 	AddEdge(from, to *graph.Vertex) error
 }
 
-// Handle processes Job which tasks are being sorted in required order
+// Handle processes Job which tasks are being sorted in required order and returned
+// as commands ready for execution. Response format depends on the query mode
 // Internally it is using graph.DirectedGraph which is doing sorting in linear complexity
 // A Job is a collection of tasks, where each Task has a name and a shell command. Tasks may
 // depend on other tasks and require that those are executed beforehand.
@@ -71,7 +72,6 @@ func Handle(w http.ResponseWriter, r *http.Request) error {
 	if err != nil {
 		return err
 	}
-	// can extend to add performance check if it was fast enough
 	logging.Println(r.Context(), zerolog.InfoLevel, "Topological sort has passed")
 
 	commandBuffer := make([]Command, len(sortedArr))
@@ -81,6 +81,10 @@ func Handle(w http.ResponseWriter, r *http.Request) error {
 
 	logging.Println(r.Context(), zerolog.InfoLevel, "Command order has been generated")
 
+	// used like factory method but for function as golang allows it
+	// there is a rule which defines if we should use struct or function
+	// if the processing does not require a state -> function
+	// if the processing requires a state -> struct
 	writeResponse := getJobModeWriter(r)
 	if err := writeResponse(w, commandBuffer); err != nil {
 		return err
@@ -114,7 +118,7 @@ func populateGraph(tasks []Task, g Graph) error {
 	return nil
 }
 
-// generateCommandOrder populates commandBuffer with ordered commands based on sorted tasks
+// generateCommandOrder populates commandBuffer with ordered commands based on sorted tasks and requested tasks
 func generateCommandOrder(sortedTasks []string, requestTasks []Task, commandBuffer []Command) error {
 	if len(sortedTasks) != len(commandBuffer) {
 		return commandBufferSizeErr
