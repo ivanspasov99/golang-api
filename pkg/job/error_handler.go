@@ -2,7 +2,7 @@ package job
 
 import (
 	"encoding/json"
-	"github.com/ivanspasov99/golang-api/logging"
+	"github.com/ivanspasov99/golang-api/pkg/logging"
 	"github.com/rs/zerolog"
 	"net/http"
 )

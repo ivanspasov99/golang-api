@@ -3,7 +3,7 @@ package job
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/ivanspasov99/golang-api/graph"
+	"github.com/ivanspasov99/golang-api/pkg/graph"
 	"github.com/pkg/errors"
 	"io"
 	"net/http"

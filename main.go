@@ -1,6 +1,8 @@
 package main
 
-import "github.com/ivanspasov99/golang-api/server"
+import (
+	"github.com/ivanspasov99/golang-api/pkg/server"
+)
 
 func main() {
 	server.StartServer()

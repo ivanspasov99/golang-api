@@ -1,7 +1,7 @@
 package job
 
 import (
-	"github.com/ivanspasov99/golang-api/graph"
+	"github.com/ivanspasov99/golang-api/pkg/graph"
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"reflect"

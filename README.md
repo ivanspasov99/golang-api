@@ -1,13 +1,15 @@
 
+
 [Task Definition](task.md)
 
+## Table Of Content
 1. [API Docs](#api-docs)
 2. [Full Software Lifecycle](#full-software-lifecycle)
-    1. [Architecture](#architecture)
-    2. [Package](#package)
-    3. [CI](#ci)
-    4. [CD](#cd)
-    5. [Monitor](#monitor)
+    - [Architecture](#architecture)
+    - [Package](#package)
+    - [CI](#ci)
+    - [CD](#cd)
+    - [Monitor](#monitor)
 3. [Job Handler](#job-handler)
 4. [Testing](#testing)
 5. [Logging Package](#logging-package)
@@ -85,7 +87,7 @@ Diagrams should be added
 - Flow Diagrams
 
 ### Package
-- All Configurations will be passed as `env` variables through charts. Example how should they be handled in [Config](config/config.go). Also, there is example for some cluster communication client 
+- All Configurations will be passed as `env` variables through charts. Example how should they be handled in [Config](pkg/config/config.go). Also, there is example for some cluster communication client 
 - Using Helm & Kubernetes
 
 ### CI 
