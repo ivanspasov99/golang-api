@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ivanspasov99/golang-api/pkg/graph"
+	"github.com/ivanspasov99/golang-api/pkg/logging"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog"
 	"io"
 	"net/http"
 )
@@ -43,6 +45,11 @@ type Graph interface {
 // depend on other tasks and require that those are executed beforehand.
 // returns
 func Handle(w http.ResponseWriter, r *http.Request) error {
+	// we could use framework as gin to eliminate a lot of the unnecessary code boilerplate
+	if r.Method != http.MethodPost {
+		return fmt.Errorf("method not allowed")
+	}
+
 	b, err := io.ReadAll(r.Body)
 	defer r.Body.Close()
 	if err != nil {
@@ -58,21 +65,28 @@ func Handle(w http.ResponseWriter, r *http.Request) error {
 	if err := populateGraph(j.Tasks, g); err != nil {
 		return err
 	}
+	logging.Println(r.Context(), zerolog.InfoLevel, "Graph has been constructed successfully")
 
 	sortedArr, err := g.TopologicalSort()
 	if err != nil {
 		return err
 	}
+	// can extend to add performance check if it was fast enough
+	logging.Println(r.Context(), zerolog.InfoLevel, "Topological sort has passed")
 
 	commandBuffer := make([]Command, len(sortedArr))
 	if err := generateCommandOrder(sortedArr, j.Tasks, commandBuffer); err != nil {
 		return err
 	}
 
+	logging.Println(r.Context(), zerolog.InfoLevel, "Command order has been generated")
+
 	writeResponse := getJobModeWriter(r)
 	if err := writeResponse(w, commandBuffer); err != nil {
 		return err
 	}
+	logging.Println(r.Context(), zerolog.InfoLevel, "Response have been sent")
+
 	return nil
 }
 
