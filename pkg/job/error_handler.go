@@ -2,7 +2,9 @@ package job
 
 import (
 	"encoding/json"
+	"github.com/ivanspasov99/golang-api/pkg/graph"
 	"github.com/ivanspasov99/golang-api/pkg/logging"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"net/http"
 )
@@ -19,16 +21,24 @@ func HandleError(h HTTPTypeHandler) http.HandlerFunc {
 			return
 		}
 
-		logging.Println(r.Context(), zerolog.ErrorLevel, err.Error())
 		// Deal with error here - the idea of middleware is important
+		logging.Println(r.Context(), zerolog.ErrorLevel, err.Error())
 
-		// depending on the error could be generated different status code, different response and server reaction as alerting and etc.
-		w.WriteHeader(http.StatusInternalServerError)
-
-		// write meaningful error to the user
-		// write the error just for simplicity
 		type ErrorResponse struct {
 			Message string `json:"Message"`
+		}
+
+		// depending on the error could be generated different status code, different responses, server reaction as alerting etc.
+		w.Header().Set("Content-Type", "application/json")
+		switch err {
+		case graph.GraphCycleErr:
+			w.WriteHeader(http.StatusBadRequest)
+			err = errors.Errorf("Please evaluate tasks. Processing feedback: %s", err.Error())
+		case graph.VertexNotFoundErr:
+			w.WriteHeader(http.StatusBadRequest)
+			err = errors.Errorf("Please evaluate required tasks as one of the defined one is not existing. Processing feedback: %s", err.Error())
+		default:
+			w.WriteHeader(http.StatusInternalServerError)
 		}
 
 		eR := ErrorResponse{Message: err.Error()}

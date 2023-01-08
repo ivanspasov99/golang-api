@@ -86,7 +86,6 @@ func Handle(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 	logging.Println(r.Context(), zerolog.InfoLevel, "Response have been sent")
-
 	return nil
 }
 

@@ -15,6 +15,14 @@
 7. [Security](#security)
 
 ## API Docs
+
+#### Prerequisites
+1. Installed `go` CLI
+
+**Execute the following command to run the application**
+`go run main.go`
+
+
 <details>
 <summary>
 <code>POST</code>

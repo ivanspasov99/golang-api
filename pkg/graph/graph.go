@@ -53,12 +53,11 @@ func (g *DirectedGraph) TopologicalSort() ([]string, error) {
 // ProcessTask is recursive function for building doing bfs and ordering vertices
 // returns GraphCycleErr if cycle appears
 func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited map[string]bool, processing map[string]bool) error {
-	// processing keeps track of currently processed vertexes and is used to identify cycles
 	processing[v.Name] = true
 	for _, edge := range g.Edges {
 		if edge.From.Name == v.Name {
 			if b, _ := processing[edge.To.Name]; b {
-				return GraphCycleErr
+				return fmt.Errorf("%w. Cycle vertex %s", GraphCycleErr, edge.To.Name)
 			}
 
 			// If m is not visited, then visit m.
@@ -80,7 +79,7 @@ func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited ma
 // Vertex retrieves a vertex by name and returns VertexNotFoundErr
 func (g *DirectedGraph) Vertex(name string) (*Vertex, error) {
 	if _, ok := g.Vertices[name]; !ok {
-		return nil, VertexNotFoundErr
+		return nil, fmt.Errorf("%w, Vertex: %s", VertexNotFoundErr, name)
 	}
 	return g.Vertices[name], nil
 }

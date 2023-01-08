@@ -136,7 +136,7 @@ func TestVertex(t *testing.T) {
 
 	_, err = g.Vertex("v3")
 	assert.NotNil(t, err)
-	assert.True(t, errors.Is(VertexNotFoundErr, err))
+	assert.True(t, errors.Is(err, VertexNotFoundErr))
 }
 
 func TestAddVertex(t *testing.T) {
