@@ -19,8 +19,9 @@
 #### Prerequisites
 1. Installed `go` CLI
 
-**Execute the following command to run the application**
-`go run main.go`
+**Execute the following steps to run the application**
+1. `git clone https://github.com/ivanspasov99/golang-api`
+2. `go run main.go` in the root of the repository
 
 
 <details>
