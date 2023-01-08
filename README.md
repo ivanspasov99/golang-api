@@ -1,6 +1,20 @@
-# API Docs
 
-## Consume API
+[Task Definition](task.md)
+
+1. [API Docs](#api-docs)
+2. [Full Software Lifecycle](#full-software-lifecycle)
+    1. [Architecture](#architecture)
+    2. [Package](#package)
+    3. [CI](#ci)
+    4. [CD](#cd)
+    5. [Monitor](#monitor)
+3. [Job Handler](#job-handler)
+4. [Testing](#testing)
+5. [Logging Package](#logging-package)
+6. [Graph Algorithm](#graph-algorithm)
+7. [Security](#security)
+
+## API Docs
 <details>
 <summary>
 <code>POST</code>
@@ -147,5 +161,5 @@ func (k key) Less(other key) bool {
 }
 ```
 
-### Security
+## Security
 Security not part of the task
