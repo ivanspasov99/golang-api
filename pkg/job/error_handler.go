@@ -22,7 +22,7 @@ func HandleError(h HTTPTypeHandler) http.HandlerFunc {
 		logging.Println(r.Context(), zerolog.ErrorLevel, err.Error())
 		// Deal with error here - the idea of middleware is important
 
-		// depending on the error could be generated different status code
+		// depending on the error could be generated different status code, different response and server reaction as alerting and etc.
 		w.WriteHeader(http.StatusInternalServerError)
 
 		// write meaningful error to the user

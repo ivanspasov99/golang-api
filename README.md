@@ -114,10 +114,11 @@ Tools that have specified in [Job Handler](#job-handler)
 Job Handler handles every job in separate goroutine, it is highly possible real big data scenario so 
 performance is crucial. Therefore, it is taken into account and time complexity is linear - Graph Implementation O(n + e).
 
-- Tests for [job.Handle](pkg/job/handler.go) and [job.HandleError](pkg/job/handler.go) are skipped. They are required but would be the same as the most of the written ones. Writer and Request would be mocked and all scenarios would be tested.
 - Handler could be made with Gin HTTP framework as it give us greater flexibility and ready feature. Some boilerplate will be removed (HTTP verbs management) 
 - Encoding/Decoding special symbols use-cases are not taken into account
 - Job Processing is separated to two middlewares using chain of responsibility pattern - job.Handle and job.HandleError as both we grow in the future so they should be separated as abstractions
+- Tests for [job.Handle](pkg/job/handler.go) and [job.HandleError](pkg/job/handler.go) are skipped. They are required but would be the same as the most of the written ones. Writer and Request would be mocked and all scenarios would be tested.
+- ErrorHandler would have a lot more complex logic with specific maybe specific error handling depending on the error type. Depends on requirements
 - Monitoring/Alerting is out of scope. Could be done with different tools depending on requirements
   - Sentry - Error Alerting, could alert the DoD (developer on duty) for errors which should be process immediately 
   - Kibana - Logging Analyse tool
