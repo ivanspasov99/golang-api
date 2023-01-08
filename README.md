@@ -1,20 +1,20 @@
 
 [Task Definition](task.md)
 
-| ## Table of Contents                                   |
-|:-------------------------------------------------------|
-| 1. [API Docs](#api-docs)                               |
- | 2. [Full Software Lifecycle](#full-software-lifecycle) |
-    | - [Architecture](#architecture)                        |
-    | - [Package](#package)                                  |
-    | - [CI](#ci)                                            |
-    | - [CD](#cd)                                            |
-    | - [Monitor](#monitor)                                  |
-| 3. [Job Handler](#job-handler)                         |
-| 4. [Testing](#testing)                                 |
-| 5. [Logging Package](#logging-package)                 |
-| 6. [Graph Algorithm](#graph-algorithm)                 |
-| 7. [Security](#security)                               | 
+| Table of Contents                                     |
+|:------------------------------------------------------|
+| * [API Docs](#api-docs)                               |
+ | * [Full Software Lifecycle](#full-software-lifecycle) |
+    | * [Architecture](#architecture)                       |
+    | * [Package](#package)                                 |
+    | * [CI](#ci)                                           |
+    | * [CD](#cd)                                           |
+    | * [Monitor](#monitor)                                 |
+| * [Job Handler](#job-handler)                         |
+| * [Testing](#testing)                                 |
+| * [Logging Package](#logging-package)                 |
+| * [Graph Algorithm](#graph-algorithm)                 |
+| * [Security](#security)                               | 
 
 ## API Docs
 <details>
