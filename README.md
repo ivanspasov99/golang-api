@@ -5,20 +5,21 @@
 <summary>
 <code>POST</code>
 <code><b>/job?mode={mode}</b></code>
-<code>Accepts job with tasks and returns ordered commands as different format depending on the `mode` passed as query parameter</code></summary>
+<code>Accepts job with tasks and returns ordered commands as different format depending on the `mode` passed as query parameter</code>
+</summary>
 
 ##### Query
 
-> | name |  type     | data type               | description                                                           | default |
-------|-------------|-----------|-------------------------|-----------------------------------------------------------------------| --- |            
-> | mode    |  optional | string                   | represents required response format - JSON, Bash supported                      | JSON |
+| name | type     | data type | description                                                | default |
+|------|----------|-----------|------------------------------------------------------------|---------|
+| mode | optional | string    | represents required response format - JSON, Bash supported | JSON    |
 
 ##### Responses
 
-> | http code | Content-Type                    | Request  | Response                                                          |
------------|---------------|-----------------------------------|---------------------------------------------------------------------| --- |
-> | `200`     | `application/json`                | [Example Request](#example-json-request) | [Example Response](#example-json-response)                                                | 
-> | `200`       | `text`                |  |                        |
+| http code | Content-Type       | Request                                  | Response                                   |
+|-----------|--------------------|------------------------------------------|--------------------------------------------|
+| `200`     | `application/json` | [Example Request](#example-json-request) | [Example Response](#example-json-response) | 
+| `200`     | `text`             | [Example Request](#example-bash-request) | [Example Response](#example-bash-response) |
 
 ###### Example JSON Request
 ```curl -d @testing/input.json http://localhost:8080```
@@ -45,6 +46,17 @@
 ]
 ```
 
+###### Example Bash Request
+```curl -d @testing/input.json http://localhost:8080?mode=bash | bash```
+
+###### Example Bash Response
+```bash
+#!/usr/bin/env bash
+touch /tmp/file1
+echo "Hello World!" > /tmp/file1
+cat /tmp/file1
+rm /tmp/file1
+```
 
 </details>
 
