@@ -60,7 +60,6 @@ func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited ma
 				return fmt.Errorf("%w. Cycle vertex %s", GraphCycleErr, edge.To.Name)
 			}
 
-			// If m is not visited, then visit m.
 			if !visited[edge.To.Name] {
 				if err := g.processTask(edge.To, sortedTasks, visited, processing); err != nil {
 					return err
@@ -68,10 +67,10 @@ func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited ma
 			}
 		}
 	}
-	// Mark node as visited and remove from temporary state.
+
 	visited[v.Name] = true
 	processing[v.Name] = false
-	// Add n to the end of L.
+
 	*sortedTasks = append(*sortedTasks, v.Name)
 	return nil
 }

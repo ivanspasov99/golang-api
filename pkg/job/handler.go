@@ -94,12 +94,10 @@ func Handle(w http.ResponseWriter, r *http.Request) error {
 }
 
 func populateGraph(tasks []Task, g Graph) error {
-	// Add a vertex for each task
 	for _, t := range tasks {
 		g.AddVertex(t.Name)
 	}
 
-	// Add an edge for each required
 	for _, t := range tasks {
 		for _, r := range t.Required {
 			from, err := g.Vertex(t.Name)

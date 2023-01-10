@@ -15,7 +15,7 @@ type HTTPTypeHandler func(w http.ResponseWriter, r *http.Request) error
 
 // HandleError is function (middleware) which process errors return by job.Handle
 func HandleError(h HTTPTypeHandler) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		err := h(w, r)
 		if err == nil {
 			return
@@ -66,5 +66,5 @@ func HandleError(h HTTPTypeHandler) http.HandlerFunc {
 		//	// Flush buffered events before the program terminates.
 		//	// Set the timeout to the maximum duration the program can afford to wait.
 		//	defer sentry.Flush(2 * time.Second)
-	})
+	}
 }
