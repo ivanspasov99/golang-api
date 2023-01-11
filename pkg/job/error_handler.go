@@ -47,11 +47,11 @@ func HandleError(h HTTPTypeHandler) http.HandlerFunc {
 		if err != nil {
 			logging.Println(r.Context(), zerolog.ErrorLevel, err.Error())
 			// ignore error just for simplicity
-			w.Write([]byte(err.Error()))
+			_, _ = w.Write([]byte(err.Error()))
 			return
 		}
 
-		w.Write(b)
+		_, _ = w.Write(b)
 
 		// Integrate Sentry for example to notify us by slack for error
 		// err := sentry.Init(sentry.ClientOptions{

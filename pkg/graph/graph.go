@@ -56,7 +56,7 @@ func (g *DirectedGraph) processTask(v *Vertex, sortedTasks *[]string, visited ma
 	processing[v.Name] = true
 	for _, edge := range g.Edges {
 		if edge.From.Name == v.Name {
-			if b, _ := processing[edge.To.Name]; b {
+			if b := processing[edge.To.Name]; b {
 				return fmt.Errorf("%w. Cycle vertex %s", GraphCycleErr, edge.To.Name)
 			}
 

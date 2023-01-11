@@ -20,7 +20,6 @@ func (e ErrorResponseWriter) Write(bytes []byte) (int, error) {
 }
 
 func (e ErrorResponseWriter) WriteHeader(statusCode int) {
-	return
 }
 
 var testWriteBash = []struct {
